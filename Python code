@@ -1,0 +1,23 @@
+import pandas as pd
+url = 'https://raw.githubusercontent.com/guipsamora/pandas_exercises/master/06_Stats/US_Baby_Names/US_Baby_Names_right.csv'
+df = pd.read_csv(url)
+
+# 1.Delete unnamed columns
+
+df.drop(df.columns[df.columns.str.contains('unnamed',case = False)],axis = 1,inplace = True)
+
+# 2.Show the distribution of male and female
+
+df.groupby('Gender')['Gender'].count()
+
+# 3.Show the top 5 most preferred names
+df_pref_names = df.groupby('Name')['Name'].count()
+df_pref_names.sort_values(ascending=False).head()
+
+# 4.What is the median name occurence in the dataset
+df.median()['Id']
+df[df['Id'] == df.median()['Id']]['Name']
+df.groupby('Name')['Name','Count'].median()
+
+# 5.Distribution of male and female born count by states
+df_state = df.groupby(['State','Year','Gender'])['Gender'].count()
